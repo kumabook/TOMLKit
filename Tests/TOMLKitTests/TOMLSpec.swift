@@ -67,6 +67,17 @@ class TOMLSpec: QuickSpec {
                     expect(result.value!).to(equal(expected))
                 }
             }
+            context("boolean") {
+                it("succeeds") {
+                    let string = self.readAssetsFile("boolean")
+                    let result = parseTOML(string)
+                    let expected: TOMLObject = [
+                      "bool1": .boolean(true),
+                      "bool2": .boolean(false),
+                    ]
+                    expect(result.value!).to(equal(expected))
+                }
+            }
         }
     }
 }

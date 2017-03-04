@@ -70,7 +70,7 @@ private func _doubleQuotedKey() -> Parser<String.UnicodeScalarView, String> {
 
 internal let tomlValue = _tomlValue()
 private func _tomlValue() -> Parser<String.UnicodeScalarView, TOMLValue> {
-    return tomlString <|> tomlInteger
+    return tomlString <|> tomlInteger <|> tomlBoolean
 }
 
 internal let tomlString = _tomlString()
@@ -93,6 +93,13 @@ private func _tomlInteger() -> Parser<String.UnicodeScalarView, TOMLValue> {
         }
     } <^> (zeroOrOne(char("+") <|> char("-")))
       <*> manyTill(digit <* skipMany(satisfy(isUnderscore)), space)
+}
+
+internal let tomlBoolean = _tomlBoolean()
+private func _tomlBoolean() -> Parser<String.UnicodeScalarView, TOMLValue> {
+    return string("true") <|> string("false") <&> {
+        TOMLValue.boolean(Bool(String($0))!)
+    }
 }
 
 private func signedValue(_ sign: String?, _ value: Int) -> Int {
