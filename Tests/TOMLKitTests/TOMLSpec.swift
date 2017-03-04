@@ -51,6 +51,22 @@ class TOMLSpec: QuickSpec {
                     expect(result.value!).to(equal(expected))
                 }
             }
+            context("integer") {
+                it("succeeds") {
+                    let string = self.readAssetsFile("integer")
+                    let result = parseTOML(string)
+                    let expected: TOMLObject = [
+                      "int1": .integer(99),
+                      "int2": .integer(42),
+                      "int3": .integer(0),
+                      "int4": .integer(-17),
+                      "int5": .integer(1000),
+                      "int6": .integer(5349221),
+                      "int7": .integer(12345),
+                    ]
+                    expect(result.value!).to(equal(expected))
+                }
+            }
         }
     }
 }

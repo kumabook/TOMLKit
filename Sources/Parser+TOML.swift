@@ -70,7 +70,7 @@ private func _doubleQuotedKey() -> Parser<String.UnicodeScalarView, String> {
 
 internal let tomlValue = _tomlValue()
 private func _tomlValue() -> Parser<String.UnicodeScalarView, TOMLValue> {
-    return tomlString
+    return tomlString <|> tomlInteger
 }
 
 internal let tomlString = _tomlString()
@@ -80,9 +80,29 @@ private func _tomlString() -> Parser<String.UnicodeScalarView, TOMLValue> {
 
 // MARK: TODO
 internal let stringValue = _stringValue()
-private func _stringValue() -> Parser<String.UnicodeScalarView, String.UnicodeScalarView>
-{
+private func _stringValue() -> Parser<String.UnicodeScalarView, String.UnicodeScalarView> {
     let normalChar = satisfy { $0 != "\\" && $0 != "\""}
     return char("\"") *> many(normalChar) <* char("\"")
 }
 
+internal let tomlInteger = _tomlInteger()
+private func _tomlInteger() -> Parser<String.UnicodeScalarView, TOMLValue> {
+    return { sign in
+        { value in
+            TOMLValue.integer(signedValue(sign.map { String($0) }, Int(String(value))!))
+        }
+    } <^> (zeroOrOne(char("+") <|> char("-")))
+      <*> manyTill(digit <* skipMany(satisfy(isUnderscore)), space)
+}
+
+private func signedValue(_ sign: String?, _ value: Int) -> Int {
+    if let s = sign , s == "-" {
+        return -value
+    }
+    return value
+}
+
+private let _underscore: String.UnicodeScalarView = "_"
+private func isUnderscore(_ c: UnicodeScalar) -> Bool {
+    return "_" == c
+}
