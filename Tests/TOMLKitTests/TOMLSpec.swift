@@ -9,11 +9,14 @@ class TOMLSpec: QuickSpec {
     func readFile(_ path: String) -> String {
         return try! String(contentsOfFile: path, encoding: .utf8)
     }
+    func readAssetsFile(_ name: String) -> String {
+        return readFile("./TestAssets/\(name).toml")
+    }
     override func spec() {
         describe("parseTOML") {
             context("comment") {
                 it("succeeds") {
-                    let string = self.readFile("./TestAssets/comment.toml")
+                    let string = self.readAssetsFile("comment")
                     let result = parseTOML(string)
                     let expected: TOMLObject = [:]
                     expect(result.value!).to(equal(expected))
@@ -21,7 +24,7 @@ class TOMLSpec: QuickSpec {
             }
             context("keyValue") {
                 it("succeeds") {
-                    let string = self.readFile("./TestAssets/key_value.toml")
+                    let string = self.readAssetsFile("key_value")
                     let result = parseTOML(string)
                     let expected: TOMLObject = [
                       "key":                .string("value"),
@@ -37,12 +40,12 @@ class TOMLSpec: QuickSpec {
                     expect(result.value!).to(equal(expected))
                 }
                 it("fails") {
-                    let string = self.readFile("./TestAssets/key_value_invalid.toml")
+                    let string = self.readAssetsFile("key_value_invalid")
                     let result = parseTOML(string)
                     expect(result.value).to(beNil())
                 }
                 it("also succeeds") {
-                    let string = self.readFile("./TestAssets/key_value_discouraged.toml")
+                    let string = self.readAssetsFile("key_value_discouraged")
                     let result = parseTOML(string)
                     let expected: TOMLObject = ["": .string("blank")]
                     expect(result.value!).to(equal(expected))
