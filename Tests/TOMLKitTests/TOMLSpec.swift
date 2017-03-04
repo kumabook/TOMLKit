@@ -36,6 +36,17 @@ class TOMLSpec: QuickSpec {
                     ]
                     expect(result.value!).to(equal(expected))
                 }
+                it("fails") {
+                    let string = self.readFile("./TestAssets/key_value_invalid.toml")
+                    let result = parseTOML(string)
+                    expect(result.value).to(beNil())
+                }
+                it("also succeeds") {
+                    let string = self.readFile("./TestAssets/key_value_discouraged.toml")
+                    let result = parseTOML(string)
+                    let expected: TOMLObject = ["": .string("blank")]
+                    expect(result.value!).to(equal(expected))
+                }
             }
         }
     }
