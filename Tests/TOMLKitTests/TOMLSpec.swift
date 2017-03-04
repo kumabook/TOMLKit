@@ -24,9 +24,15 @@ class TOMLSpec: QuickSpec {
                     let string = self.readFile("./TestAssets/key_value.toml")
                     let result = parseTOML(string)
                     let expected: TOMLObject = [
-                      "key1": .string("value1"),
-                      "key2": .string("value2"),
-                      "key3": .string("value3"),
+                      "key":                .string("value"),
+                      "bare_key":           .string("value"),
+                      "bare-key":           .string("value"),
+                      "1234":               .string("value"),
+                      "127.0.0.1":          .string("value"),
+                      "character encoding": .string("value"),
+                      "ʎǝʞ":                .string("value"),
+                      "key2":               .string("value"),
+                      "quoted \"value\"":   .string("value"),
                     ]
                     expect(result.value!).to(equal(expected))
                 }
