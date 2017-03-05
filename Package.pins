@@ -1,0 +1,46 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "branch": null,
+      "package": "Nimble",
+      "reason": null,
+      "repositoryURL": "https://github.com/Quick/Nimble.git",
+      "revision": "8e2703fabde578a6d28537c73844f84d48e71200",
+      "version": "6.0.1"
+    },
+    {
+      "branch": null,
+      "package": "Quick",
+      "reason": null,
+      "repositoryURL": "https://github.com/Quick/Quick.git",
+      "revision": "e4fa1e85c0305ba4e0866f25812d3fa398f3a048",
+      "version": "1.1.0"
+    },
+    {
+      "branch": null,
+      "package": "Result",
+      "reason": null,
+      "repositoryURL": "https://github.com/antitypical/Result.git",
+      "revision": "2af7c146071c8d8fb3953f19924ecebf15c88ea7",
+      "version": "3.2.1"
+    },
+    {
+      "branch": null,
+      "package": "Runes",
+      "reason": null,
+      "repositoryURL": "https://github.com/thoughtbot/Runes.git",
+      "revision": "727fcfe8d79ec92ce989a96329147190d20f7cd2",
+      "version": "4.0.1"
+    },
+    {
+      "branch": null,
+      "package": "TryParsec",
+      "reason": null,
+      "repositoryURL": "https://github.com/kumabook/TryParsec.git",
+      "revision": "792c3bccd0d4979b665ce8ca3274d48d4e577d97",
+      "version": "0.1.2"
+    }
+  ],
+  "version": 1
+}
