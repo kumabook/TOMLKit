@@ -19,6 +19,7 @@ class TOMLSpec: QuickSpec {
                     let string = self.readAssetsFile("comment")
                     let result = parseTOML(string)
                     let expected: TOMLObject = [:]
+                    expect(result.value).notTo(beNil())
                     expect(result.value!).to(equal(expected))
                 }
             }
@@ -37,6 +38,7 @@ class TOMLSpec: QuickSpec {
                       "key2":               .string("value"),
                       "quoted \"value\"":   .string("value"),
                     ]
+                    expect(result.value).notTo(beNil())
                     expect(result.value!).to(equal(expected))
                 }
                 it("fails") {
@@ -48,6 +50,7 @@ class TOMLSpec: QuickSpec {
                     let string = self.readAssetsFile("key_value_discouraged")
                     let result = parseTOML(string)
                     let expected: TOMLObject = ["": .string("blank")]
+                    expect(result.value).notTo(beNil())
                     expect(result.value!).to(equal(expected))
                 }
             }
@@ -64,7 +67,30 @@ class TOMLSpec: QuickSpec {
                       "int6": .integer(5349221),
                       "int7": .integer(12345),
                     ]
+                    expect(result.value).notTo(beNil())
                     expect(result.value!).to(equal(expected))
+                }
+            }
+            context("float") {
+                it("succeeds") {
+                    let string = self.readAssetsFile("float")
+                    let result = parseTOML(string)
+                    let expected: TOMLObject = [
+                      "flt1": .float(+1.0),
+                      "flt2": .float(3.1415),
+                      "flt3": .float(-0.01),
+                      "flt4": .float(5e+22),
+                      "flt5": .float(1e6),
+                      "flt6": .float(-2E-2),
+                      "flt7": .float(6.626e-34),
+                    ]
+                    expect(result.value).notTo(beNil())
+                    let actual = result.value!
+                    for (key, value) in expected {
+                        if case let (.float(a), .float(e)) = (actual[key]!, value) {
+                            expect(a).to(beCloseTo(e))
+                        }
+                    }
                 }
             }
             context("boolean") {
@@ -75,6 +101,7 @@ class TOMLSpec: QuickSpec {
                       "bool1": .boolean(true),
                       "bool2": .boolean(false),
                     ]
+                    expect(result.value).notTo(beNil())
                     expect(result.value!).to(equal(expected))
                 }
             }
